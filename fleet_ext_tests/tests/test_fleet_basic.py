@@ -71,3 +71,4 @@ class TestFleetExternal(common.TransactionCase):
         self.assertEqual(res, car)
         print("✅ test_contract_overdue passed")
          
+    # Delete_vehicle test needed next
