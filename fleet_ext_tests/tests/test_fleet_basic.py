@@ -72,3 +72,35 @@ class TestFleetExternal(common.TransactionCase):
         print("✅ test_contract_overdue passed")
          
     # Delete_vehicle test needed next
+    def test_delete_vehicle(self):
+        """Deleting a vehicle from the fleet."""
+        car = self._make_vehicle()
+        car_id = car.id
+        
+        # Create dependent records
+        odo = self.Odometer.create({
+            "vehicle_id": car.id,
+            "value": 12345,
+            "date": fields.Date.today(),
+        })
+        contract = self.ContractLog.create({
+            "vehicle_id": car.id,
+            "expiration_date": fields.Date.add(fields.Date.today(), days=10),
+        })
+        
+        # Delete related records before delete vehicle
+        self.env["fleet.vehicle.assignation.log"].search([("vehicle_id", "=", car_id)]).unlink()
+        odo.unlink()
+        contract.unlink()
+        
+        # Delete the vehicle
+        car.unlink()
+        
+        # Confirm it no longer exists
+        res = self.Vehicle.search([("id", "=", car_id)])
+        self.assertFalse(res, "Vehicle not deleted")
+        
+        print("✅ test_delete_vehicle passed")
+
+        
+                                   
