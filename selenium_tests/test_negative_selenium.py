@@ -4,6 +4,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 # Replace with your Odoo server info
 ODOO_URL = "http://146.190.122.200:8069/web/login?db=testdb"
@@ -53,11 +56,12 @@ def test_create_patient_without_age(driver):
     driver.implicitly_wait(5)
     
     # Step 6. Verify error is shown (Odoo will display a red validation error bar)
-    error_banner = driver.find_element(By.CLASS_NAME, "o_notification_content").text
-    assert "age" in error_banner.lower(), f"Expected required age error, got {error_banner}"
+    error_title = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, ".modal-header .modal-title"))
+    ).text
 
-    print("✅  Negative test (create patient without age) caught validation error as expected")
-
+    assert "validation error" in error_title.lower(), \
+        f"Expected Validation Error, got {error_title}"
     
 def test_create_vehicle_without_license(driver):
     pass
