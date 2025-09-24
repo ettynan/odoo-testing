@@ -7,8 +7,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # Replace with your Odoo server info
 ODOO_URL = "http://146.190.122.200:8069/web/login?db=testdb"
-USERNAME = "user1@yahoo.com"   # <-- replace with User1's actual login
-PASSWORD = "user1"        # <-- replace with User1's actual password
+USERNAME = "user1@yahoo.com"   # <-- use User1's actual login
+PASSWORD = "user1"        # <-- use User1's actual password
 
 
 @pytest.fixture
