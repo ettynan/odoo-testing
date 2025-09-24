@@ -44,7 +44,7 @@ class TestHospital(common.TransactionCase):
     def test_create_appointment(self):
         """Create an appointment linking patient and doctor."""
         
-        # create a nee instance of each
+        # create a new instance of each
         patient = self.Patient.create({
             "name": "Bob Smith",
             "age": 28,
@@ -65,6 +65,46 @@ class TestHospital(common.TransactionCase):
         self.assertEqual(appointment.doctor_id, doctor)
         print("✅ test_create_appointment passed")
 
+    def test_update_doctor_note(self):
+        """Update a doctor's note to reflect new information."""
+        
+        # create a doctor
+        doctor = self.Doctor.create({
+            "doctor_name": "Dr. Green",
+            "gender": "female",
+        })
+        
+        # update their note with new information
+        doctor.write({
+            "note": "Resident obtained DEA license in 2025",
+        })
+        
+        # assert that the note was updated correctly
+        self.assertEqual(doctor.note, "Resident obtained DEA license in 2025")
+        print("✅ test_update_doctor_note passed")
+
+    def test_delete_appointment(self):
+        """Delete an appointment and confirm removal."""
+        
+        # create initial instances
+        patient = self.Patient.create({
+            "name": "Alice Johnson",
+            "age": 40,
+        })
+        doctor = self.Doctor.create({
+            "doctor_name": "Dr. Evans",
+            "gender": "male",
+        })
+        appointment = self.Appointment.create({
+            "patient_id": patient.id,
+            "doctor_id": doctor.id,
+            "name": "Checkup",
+        })
+        app_id = appointment.id
+        appointment.unlink()
+        res = self.Appointment.search([("id", "=", app_id)])
+        self.assertFalse(res, "Appointment record was not deleted")
+        print("✅ test_delete_appointment passed")
 
 
         
