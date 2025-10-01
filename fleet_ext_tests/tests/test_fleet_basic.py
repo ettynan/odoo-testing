@@ -18,6 +18,7 @@ class TestFleetExternal(common.TransactionCase):
     def _make_vehicle(self):
         return self.Vehicle.create({
             "model_id": self.model.id,
+            "license_plate": "TEST-123",   
             "driver_id": self.user.partner_id.id,
             "plan_to_change_car": False,
         })

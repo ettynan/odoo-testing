@@ -90,7 +90,5 @@ def test_create_patient_with_age(driver):
     assert saved_name == "Selenium Test Patient", f"Expected 'Selenium Test Patient', got {saved_name}"
     assert saved_age == "45", f"Expected age '45', got {saved_age}"
 
-    print("✅ test_create_patient passed")
-
 def test_create_vehicle(driver):
     pass
