@@ -53,6 +53,3 @@ def test_login_to_odoo(driver):
 
     assert "web" in driver.current_url, f"Expected to be inside Odoo, got {driver.current_url}"
     assert "Discuss" in driver.page_source, "Discuss not found in page source — login may have failed"
-
-def test_create_vehicle(driver):
-    pass

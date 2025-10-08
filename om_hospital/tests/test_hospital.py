@@ -12,6 +12,7 @@ class TestHospital(common.TransactionCase):
         self.Doctor = self.env["hospital.doctor"]
         self.Appointment = self.env["hospital.appointment"]
 
+
     def test_create_patient(self):
         """Create a patient and verify data is stored correctly."""
 
@@ -27,6 +28,7 @@ class TestHospital(common.TransactionCase):
         self.assertEqual(patient.age, 30)
         print("✅ test_create_patient passed")
     
+    
     def test_create_doctor(self):
         """Create a doctor and verify data is stored correctly."""
 
@@ -40,6 +42,7 @@ class TestHospital(common.TransactionCase):
         self.assertEqual(doctor.doctor_name, "Dr. James Johnston")
         self.assertEqual(doctor.gender, "male")
         print("✅ test_create_doctor passed")
+        
         
     def test_create_appointment(self):
         """Create an appointment linking patient and doctor."""
@@ -65,6 +68,7 @@ class TestHospital(common.TransactionCase):
         self.assertEqual(appointment.doctor_id, doctor)
         print("✅ test_create_appointment passed")
 
+
     def test_update_doctor_note(self):
         """Update a doctor's note to reflect new information."""
         
@@ -82,6 +86,7 @@ class TestHospital(common.TransactionCase):
         # assert that the note was updated correctly
         self.assertEqual(doctor.note, "Resident obtained DEA license in 2025")
         print("✅ test_update_doctor_note passed")
+
 
     def test_delete_appointment(self):
         """Delete an appointment and confirm removal."""

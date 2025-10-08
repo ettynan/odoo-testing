@@ -23,6 +23,7 @@ class TestFleetExternal(common.TransactionCase):
             "plan_to_change_car": False,
         })
 
+
     def test_vehicle_creation(self):
         """Vehicle creates and links to model & driver."""
         car = self._make_vehicle()
@@ -44,6 +45,7 @@ class TestFleetExternal(common.TransactionCase):
         self.assertEqual(odo.value, 12345)
         print("✅ test_odometer_log passed")
 
+
     def test_contract_due_soon(self):
         """Contract expiring soon flags the vehicle."""
         car = self._make_vehicle()
@@ -57,6 +59,7 @@ class TestFleetExternal(common.TransactionCase):
         ])
         self.assertEqual(res, car)
         print("✅ test_contract_due_soon passed")
+
 
     def test_contract_overdue(self):
         """Expired contract flags the vehicle as overdue."""
@@ -72,7 +75,7 @@ class TestFleetExternal(common.TransactionCase):
         self.assertEqual(res, car)
         print("✅ test_contract_overdue passed")
          
-    # Delete_vehicle test needed next
+         
     def test_delete_vehicle(self):
         """Deleting a vehicle from the fleet."""
         car = self._make_vehicle()
