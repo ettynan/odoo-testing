@@ -5,12 +5,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 
 # Replace with your Odoo server info
 ODOO_URL = "http://146.190.122.200:8069/web/login?db=testdb"
+KANBAN_URL = "http://146.190.122.200:8069/web?debug=assets#cids=1&menu_id=97&action=128&model=fleet.vehicle&view_type=kanban"
 USERNAME = "user1@yahoo.com"   # <-- replace with User1's actual login
 PASSWORD = "user1"        # <-- replace with User1's actual password
 
@@ -39,7 +38,7 @@ def test_create_vehicle_positive(driver):
     driver.implicitly_wait(5)
 
     # Step 2: Navigate to Vehicles page
-    driver.get("http://146.190.122.200:8069/web#cids=1&menu_id=285&action=128&model=fleet.vehicle&view_type=kanban")
+    driver.get(KANBAN_URL)
     driver.implicitly_wait(5)
 
     # Step 3: Click "Create"
@@ -47,7 +46,6 @@ def test_create_vehicle_positive(driver):
     create_btn.click()
     # Give Odoo a small real pause to load the inline form
     time.sleep(2)
-    driver.implicitly_wait(5)
 
     # Step 4: Fill License Plate
     license_input = driver.find_element(By.NAME, "license_plate")
@@ -68,6 +66,13 @@ def test_create_vehicle_positive(driver):
     save_btn.click()
     driver.implicitly_wait(5)
 
-    # Step 7: Verify saved License Plate
-    saved_plate = driver.find_element(By.NAME, "license_plate").get_attribute("value")
-    assert saved_plate == "TEST-PLATE-123", f"Expected 'TEST-PLATE-123', got {saved_plate}"
+    # Step 7: Return to kanban view directly
+    driver.get(KANBAN_URL)
+    driver.implicitly_wait(5)
+
+    # Step 8: Verify vehicle appears in kanban
+    time.sleep(5)  # give Odoo time to load the kanban cards
+    kanban_cards = driver.find_elements(By.XPATH, "//div[contains(@class,'o_kanban_record')]")
+
+    assert any("TEST-PLATE-123" in card.text for card in kanban_cards), \
+        "Vehicle not found in Fleet list view after creation"
