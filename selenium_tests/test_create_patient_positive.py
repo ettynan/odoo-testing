@@ -1,4 +1,5 @@
 import pytest
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -41,6 +42,7 @@ def test_create_patient_with_age(driver):
     # Step 3. Click the "Create" button
     create_btn = driver.find_element(By.XPATH, "//button[contains(@class,'o_list_button_add')]")
     create_btn.click()
+    time.sleep(2)
     driver.implicitly_wait(5)
     
     # Step 4. Fill in patient form

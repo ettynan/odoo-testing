@@ -1,4 +1,5 @@
 import pytest
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -44,6 +45,8 @@ def test_create_vehicle_positive(driver):
     # Step 3: Click "Create"
     create_btn = driver.find_element(By.XPATH, "//button[contains(@class,'o-kanban-button-new')]")
     create_btn.click()
+    # Give Odoo a small real pause to load the inline form
+    time.sleep(2)
     driver.implicitly_wait(5)
 
     # Step 4: Fill License Plate
